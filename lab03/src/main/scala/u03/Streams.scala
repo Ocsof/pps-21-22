@@ -37,7 +37,17 @@ object Streams extends App:
     def iterate[A](init: => A)(next: A => A): Stream[A] =
       cons(init, iterate(next(init))(next))
 
-  // TODO: def drop(....)
+    def drop[A](stream: Stream[A])(n: Int): Stream[A] = stream match
+      case Cons(head, tail) if n > 0 => drop(tail())(n-1)
+      case Empty() => Empty()  //nel caso in cui li cancelli tutti
+      case _ => stream
+
+    def constant[A](constant: A): Stream[A] = iterate(constant)(constant => constant)
+
+    def fibs(): Stream[Int] =
+      val s = iterate((0, 1))((x: Int, y: Int) => (y, x + y))
+      map(s)((x: Int, y: Int) => x)
+
   end Stream
 
   // var simplifies chaining of functions a bit..

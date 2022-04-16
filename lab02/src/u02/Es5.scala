@@ -5,6 +5,7 @@ object Es5 extends App:
     i => f(g(i))
 
   println(composeMeth(_ - 1, _ * 2)(5))
+  //println(composeMeth(x => x -1, x => x * 2)(5))
 
   val composeFun: ((Int => Int), (Int => Int)) => (Int => Int) =
     (f, g) => (i => f(g(i)))

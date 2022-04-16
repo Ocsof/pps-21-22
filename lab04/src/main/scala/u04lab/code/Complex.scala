@@ -7,9 +7,22 @@ trait Complex:
   def *(c: Complex): Complex // should implement the product of two complex numbers
 
 object Complex:
-  def apply(re: Double, im: Double): Complex = ??? // Fill here
+  def apply(re: Double, im: Double): Complex =
+    ComplexImpl(re, im)
+    //se metto case class posso togliere ovverride e val perchè lo sono in automatico
+  private class ComplexImpl(override val re: Double,  //mettendo case class funzionano equals e toString,
+                    override val im: Double) extends Complex:
+    //assert(re != null && im != null) //come accertarsi che i due non siano null?
+    override def +(c: Complex): Complex = Complex(re + c.re, im + c.im)
+    override def *(c: Complex): Complex = Complex(re * c.re, im * c.im)
+
+
 
 @main def checkComplex(): Unit =
+  println(Complex(2, 3).toString)
+  println(Complex(2, 3) == Complex(2, 3))
+  println(Complex(2, 3) eq Complex(2, 3))
+  println(Complex(2, 3) equals Complex(2, 3))
   val a = Array(Complex(10, 20), Complex(1, 1), Complex(7, 0))
   val c = a(0) + a(1) + a(2)
   println((c, c.re, c.im)) // (ComplexImpl(18.0,21.0),18.0,21.0)
